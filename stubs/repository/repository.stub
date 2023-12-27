@@ -1,0 +1,12 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ REPOSITORIES_NAMESPACE }}\{{ DATABASE }};
+
+use {{ REPOSITORIES_NAMESPACE }}\Contracts\{{ NAME }}RepositoryContract;
+
+class {{ NAME }}Repository implements {{ NAME }}RepositoryContract
+{
+    //
+}

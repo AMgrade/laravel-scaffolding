@@ -1,0 +1,10 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ REPOSITORIES_NAMESPACE }}\Contracts;
+
+interface {{ NAME }}RepositoryContract
+{
+    //
+}

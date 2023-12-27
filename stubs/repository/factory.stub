@@ -1,0 +1,30 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ REPOSITORIES_NAMESPACE }};
+
+use Illuminate\Container\Container;
+
+class Factory
+{
+    protected static array $resolved = [];
+
+    /**
+     * @template InstanceType
+     *
+     * @param string<InstanceType> $class
+     *
+     * @return InstanceType
+     *
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
+    public static function make(string $class): object
+    {
+        if (!isset(self::$resolved[$class])) {
+            self::$resolved[$class] = Container::getInstance()->make($class);
+        }
+
+        return self::$resolved[$class];
+    }
+}

@@ -1,0 +1,21 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ PROVIDERS_NAMESPACE }};
+
+{{ PROVIDER_IMPORTS }}
+
+class RepositoryServiceProvider extends ServiceProvider
+{
+    protected array $map = [
+{{ PROVIDER_MAP }}
+    ];
+
+    public function register(): void
+    {
+        foreach ($this->map as $contract => $class) {
+            $this->app->singleton($contract, $class);
+        }
+    }
+}
