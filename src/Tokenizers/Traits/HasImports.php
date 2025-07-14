@@ -13,8 +13,10 @@ use PhpParser\ParserFactory;
 use function array_map;
 use function array_slice;
 use function array_unique;
+use function defined;
 use function explode;
 use function implode;
+use function method_exists;
 use function sort;
 
 trait HasImports
@@ -23,9 +25,13 @@ trait HasImports
 
     public function getImports(): array
     {
-        $ast = (new ParserFactory())
-            ->create(ParserFactory::PREFER_PHP7)
-            ->parse($this->content);
+        $factory = new ParserFactory();
+
+        $factory = defined(ParserFactory::class.'::PREFER_PHP7') && method_exists($factory, 'create')
+            ? $factory->create(ParserFactory::PREFER_PHP7)
+            : $factory->createForHostVersion();
+
+        $ast = $factory->parse($this->content);
 
         $traverser = new NodeTraverser();
         $traverser->addVisitor(new NameResolver());
