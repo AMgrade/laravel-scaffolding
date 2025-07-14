@@ -9,6 +9,9 @@ use AMgrade\Scaffolding\Tokenizers\Traits\HasClassProperty;
 use AMgrade\Scaffolding\Tokenizers\Traits\HasImports;
 use PhpParser\ParserFactory;
 
+use function defined;
+use function method_exists;
+
 abstract class Tokenizer
 {
     use HasClassNames;
@@ -19,8 +22,12 @@ abstract class Tokenizer
 
     public function __construct(protected string $content)
     {
-        $this->ast = (new ParserFactory())
-            ->create(ParserFactory::PREFER_PHP7)
-            ->parse($this->content);
+        $factory = new ParserFactory();
+
+        $factory = defined(ParserFactory::class.'::PREFER_PHP7') && method_exists($factory, 'create')
+            ? $factory->create(ParserFactory::PREFER_PHP7)
+            : $factory->createForHostVersion();
+
+        $this->ast = $factory->parse($this->content);
     }
 }
